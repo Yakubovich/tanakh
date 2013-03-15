@@ -1,6 +1,6 @@
 $(document).ready(function(){
   var xmlhttp = new XMLHttpRequest();
-  xmlhttp.open("GET","hebrew/XMLServer.xml",false);
+  xmlhttp.open("GET","hebrew/genesis.xml",false);
   xmlhttp.send();
   var xmlDoc = xmlhttp.responseXML
   var chapters = xmlDoc.getElementsByTagName("c");
