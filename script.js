@@ -1,6 +1,6 @@
 $(document).ready(function(){
   var xmlhttp = new XMLHttpRequest();
-  xmlhttp.open("GET","XMLServer.xml",false);
+  xmlhttp.open("GET","hebrew/XMLServer.xml",false);
   xmlhttp.send();
   var xmlDoc = xmlhttp.responseXML
   var chapters = xmlDoc.getElementsByTagName("c");
@@ -11,10 +11,15 @@ $(document).ready(function(){
   var $audio = $("#footer audio");
   var currentChapter = 1;
   var currentBook = 1;
+  var books = {};
 
   $header.attr("data-book-number", 1);
 
-  getChapter(currentChapter);
+  $.getJSON('english/genesis.json', function(response) {
+    books["1"] = response;
+    getChapter(currentChapter);
+  });
+
   $audio.html("<source src='http://media.snunit.k12.il/kodeshm/mp3/t" + pad(currentBook,2) + pad(currentChapter,2) + ".mp3' type='audio/mpeg'>");
 
   $("#next").click(function() {
@@ -97,7 +102,7 @@ $(document).ready(function(){
         $english.appendTo($verse);
         $hebrew.appendTo($verse);
         $verse.appendTo($chapter);
-        var englishLines = genesis.chapters[c].verses[verseNum - 1].text;
+        var englishLines = books[currentBook].chapters[c].verses[verseNum - 1].text;
         for (var l = 0; l < englishLines.length; l++)
           $english.append(englishLines[l] + "<br>");
       } else {
