@@ -1,0 +1,226 @@
+body {
+  font-size: 1.5em;
+  line-height: 1.1em;
+  padding: 0;
+  margin: 0;
+  color: #333;
+  counter-reset: chapter-num 0;
+  font-family: Georgia, serif;
+  padding-top: 64px;
+}
+
+#header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding-top: 40px;
+  background: #F38268;
+  z-index: 999;
+}
+
+#search {
+  width: 100%;
+  height: 40px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: rgba(255,255,255,.9);
+  background: rgba(255,255,255,.2) no-repeat;
+  background-image: url("book.png");
+  background-position-x: 4px;
+  background-position-y: 4px;
+  border: none;
+  font-size: 18px;
+  padding-left: 43px;
+  box-sizing: border-box;
+  -webkit-transition: .6s all;
+     -moz-transition: .6s all;
+       -o-transition: .6s all;
+}
+
+#search::-webkit-input-placeholder {
+  color: rgba(255,255,255,.7) !important;
+}
+
+#search:-moz-placeholder {
+  color: rgba(255,255,255,.7) !important;
+}
+
+#search::-moz-placeholder {
+  color: rgba(255,255,255,.7) !important;
+}
+
+#search:-ms-input-placeholder {
+  color: rgba(255,255,255,.7) !important;
+}
+
+#search:active, #search:focus {
+  outline: none !important;
+  background-color: rgba(0,0,0,.1);
+  -webkit-transition: .4s all;
+     -moz-transition: .4s all;
+       -o-transition: .4s all;
+}
+
+#footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 30px;
+  width: 100%;
+  background: black;
+  z-index: 999;
+}
+
+#footer audio {
+  width: 100%;
+}
+
+.nav-button {
+  height: 40px;
+  background: rgba(0,0,0,.03);
+  color: rgba(255,255,255,.9);
+  border: none;
+  font-size: .8em;
+  text-decoration: none;
+  display: block;
+  line-height: 2.1em;
+  text-align: center;
+  width: 100px;
+  position: absolute;
+  top: 0;
+}
+
+#next {
+  right: 0%;
+}
+
+#prev {
+  right: 100px;
+}
+
+#books {
+  right: 200px; 
+}
+
+#books .small {
+  font-size: .5em;
+}
+
+.nav-button:hover {
+  cursor: poiner;
+  cursor: hand;
+  background: rgba(0,0,0,.07);
+}
+
+.hebrew {
+  text-align: right;
+  float: left;
+  direction: rtl;
+}
+
+.english {
+  text-align: left;
+  float: right;
+}
+
+.verse .hebrew {
+  width: 46%;
+  overflow: hidden;
+  padding-bottom: .4em;
+  position: relative;
+  padding-right: 3%;
+}
+
+.verse .english {
+  width: 46%;
+  overflow: hidden;
+  font-size: .8em;
+  position: relative;
+  padding-left: 3%;
+}
+
+h2 {
+  width: 45%;
+  margin: .3em;
+  color: rgba(0,0,0,.6);
+  padding-bottom: .5em;
+}
+
+.chapter {
+  counter-reset: verse-num;
+  padding: 0;
+}
+
+.verse {
+  position: relative;
+  list-style-type: none;
+  padding-right: 15px;
+  padding-left: 15px;
+  clear: both;
+  overflow: auto;
+  text-align: left;
+  padding-top: .2em;
+  padding-bottom: .2em;
+}
+
+.verse .hebrew:before {
+  content: counter(verse-num, hebrew);
+  position: absolute;
+  top: 2px;
+  right: 0;
+  color: #666;
+  font-size: .6em;
+}
+
+.verse .english:after {
+  content: counter(verse-num);
+  counter-increment: verse-num;
+  position: absolute;
+  top: 2px;
+  left: 0;
+  color: #666;
+  font-size: .6em;
+}
+
+h2.hebrew:after {
+  content: counter(chapter-num, hebrew);
+  counter-increment: chapter-num;
+}
+
+h2.english:after {
+  content: counter(chapter-num);
+}
+
+h2.english {
+  font-size: 1.2em;
+}
+
+.verse:hover {
+  background: #efefef;
+  cursor: pointer;
+}
+
+.simplemodal-container {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+#simplemodal-overlay {
+  opacity: .5;
+  background: black;
+  cursor: pointer;
+}
+
+.post {
+  font-size: .6em;
+  display: block;
+  text-decoration: none;
+  color: #F38268;
+}
+
+.post:hover {
+  text-decoration: underline;
+}
