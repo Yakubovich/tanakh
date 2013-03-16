@@ -102,6 +102,7 @@ $(document).ready(function(){
     }
   });
 
+  /*
   $(".verse").live("click", function() {
     var book = $(this).attr("data-book");
     var chapter = $(this).attr("data-chapter");
@@ -119,6 +120,7 @@ $(document).ready(function(){
       $modal.modal({overlayClose: true});
     });
   });
+  */
 
   resize();
   $(window).resize(resize);
