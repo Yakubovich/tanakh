@@ -8,7 +8,8 @@ $(document).ready(function(){
   var currentChapter = 1;
   var currentBook = 1;
   var books = [];
-  var bookMap = [ "genesis", "exodus", "leviticus", "numbers", "deuteronomy", "joshua", "judges", "1samuel", "2samuel", "1kings", "2kings", "isaiah", "jeremiah", "ezekiel", "hosea", "joel", "amos", "obadiah", "jonah", "micah", "nahum", "habakkuk", "zephaniah", "haggai", "zechariah", "malachi", "psalms", "proverbs", "job", "songofsongs", "ruth", "lamentation", "ecclesiastes", "esther", "daniel", "ezra", "nehemiah", "1chronicles", "2chronicles" ];
+  var bookMap = [ "genesis", "exodus", "leviticus", "numbers", "deuteronomy", "joshua", "judges", "1samuel", "2samuel", "1kings", "2kings", "isaiah", "jeremiah", "ezekiel", "hosea", "joel", "amos", "obadiah", "jonah", "micah", "nahum", "habakkuk", "zephaniah", "haggai", "zechariah", "malachi", "psalms", "proverbs", "job", "songofsongs", "ruth", "lamentations", "ecclesiastes", "esther", "daniel", "ezra", "nehemiah", "1chronicles", "2chronicles" ];
+  var audioBooks = [ "01", "02", "03", "04", "05", "06", "07", "08a", "08b", "09a", "09b", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "26", "28", "27", "30", "29", "32", "31", "33", "34", "35a", "35b", "25a", "25b" ];
 
   for (var i = 0; i < 40; i++) {
     books.push({});
@@ -35,13 +36,13 @@ $(document).ready(function(){
 
   getHebrewBook(1);
 
-  $audio.html("<source src='http://media.snunit.k12.il/kodeshm/mp3/t" + pad(currentBook,2) + pad(currentChapter,2) + ".mp3' type='audio/mpeg'>");
+  $audio.html("<source src='http://media.snunit.k12.il/kodeshm/mp3/t" + audioBooks[currentBook - 1] + pad(currentChapter,2) + ".mp3' type='audio/mpeg'>");
 
   $("#next").click(function() {
     $("ul.chapter").html("");
     $body.css("counter-reset", "chapter-num " + currentChapter);
     getChapter(++currentChapter, currentBook);
-    $audio.html("<source src='http://media.snunit.k12.il/kodeshm/mp3/t" + pad(currentBook,2) + pad(currentChapter,2) + ".mp3' type='audio/mpeg'>");
+    $audio.html("<source src='http://media.snunit.k12.il/kodeshm/mp3/t" + audioBooks[currentBook - 1] + pad(currentChapter,2) + ".mp3' type='audio/mpeg'>");
   });
 
   $("#prev").click(function() {
@@ -52,15 +53,23 @@ $(document).ready(function(){
 
   $("#books").click(function(e) {
     e.stopPropagation();
-    $("#book-dropdown").slideDown();
-    $(".chapter").addClass("faded");
-    $(document).one("click", function(e){
-      e.stopPropagation();
-      e.preventDefault();
-      $("#book-dropdown").hide();
-      $(".chapter").removeClass("faded");
-    });
+    if ($("#book-dropdown").is(":visible")) {
+      closeBookMenu();
+    } else {
+      $("#book-dropdown").slideDown();
+      $(".chapter").addClass("faded");
+      $(document).one("click", function(e){
+        e.stopPropagation();
+        e.preventDefault();
+        closeBookMenu();
+      });
+    }
   });
+
+  function closeBookMenu() {
+    $("#book-dropdown").hide();
+    $(".chapter").removeClass("faded");
+  }
 
   $("#book-dropdown > li").click(function() {
     currentBook = $(this).parent().children().index(this) + 1;
@@ -89,8 +98,7 @@ $(document).ready(function(){
 
   $(window).keyup(function(e){
     if (e.which == 27 && $("#book-dropdown").is(":visible")) {
-      $("#book-dropdown").hide();
-      $(".chapter").removeClass("faded");
+      closeBookMenu();
     }
   });
 
@@ -133,7 +141,7 @@ $(document).ready(function(){
     c--;
 
     $body.css("counter-reset", "chapter-num " + c);
-    $audio.html("<source src='http://media.snunit.k12.il/kodeshm/mp3/t" + pad(b,2) + pad(c+1,2) + ".mp3' type='audio/mpeg'>");
+    $audio.html("<source src='http://media.snunit.k12.il/kodeshm/mp3/t" + audioBooks[b - 1] + pad(c+1,2) + ".mp3' type='audio/mpeg'>");
     var verses = books[b].hebrew[c].getElementsByTagName("v");
     $("ul.chapter").remove();
     var $chapter = $("<ul class='chapter'>");

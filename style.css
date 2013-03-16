@@ -145,6 +145,10 @@ body {
   float: right;
 }
 
+po, po1, po2, po3, po4, po5, po6, po7, po8, po9, po10 {
+  display: block;
+}
+
 .verse .hebrew {
   width: 46%;
   overflow: hidden;

@@ -6,7 +6,7 @@ You can view the current work in progress here:
 
 http://yakubovich.github.com/tanakh/
 
-Currently, the early books all work in Hebrew and English. Later books are not loading properly. Search is not yet implemented.
+Search is not yet implemented.
 
 -----------------------------
 
