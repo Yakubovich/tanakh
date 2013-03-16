@@ -1,3 +1,10 @@
+@font-face {
+  font-family: ezra;
+  src: url('SILEOT.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
   font-size: 1.5em;
   line-height: 1.1em;
@@ -6,6 +13,7 @@ body {
   color: #333;
   counter-reset: chapter-num 0;
   font-family: Georgia, serif;
+  font-family: ezra;
   padding-top: 64px;
 }
 
@@ -138,6 +146,7 @@ body {
   text-align: right;
   float: left;
   direction: rtl;
+  line-height: 1.4em; /* taller lines for ezra font */
 }
 
 .english {
