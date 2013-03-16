@@ -221,6 +221,10 @@ h2 {
   font-size: .6em;
 }
 
+h2.hebrew {
+  margin-top: 0; /* for ezra font */
+}
+
 h2.hebrew:after {
   content: counter(chapter-num, hebrew);
   counter-increment: chapter-num;
