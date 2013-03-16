@@ -38,18 +38,20 @@ $(document).ready(function(){
 
   $audio.html("<source src='http://media.snunit.k12.il/kodeshm/mp3/t" + audioBooks[currentBook - 1] + pad(currentChapter,2) + ".mp3' type='audio/mpeg'>");
 
-  $("#next").click(function() {
+  function nextChapter() {
     $("ul.chapter").html("");
     $body.css("counter-reset", "chapter-num " + currentChapter);
     getChapter(++currentChapter, currentBook);
     $audio.html("<source src='http://media.snunit.k12.il/kodeshm/mp3/t" + audioBooks[currentBook - 1] + pad(currentChapter,2) + ".mp3' type='audio/mpeg'>");
-  });
+  }
 
-  $("#prev").click(function() {
-    if (currentChapter > 1) {
+  function previousChapter() {
+    if (currentChapter > 1)
       getChapter(--currentChapter, currentBook);
-    }
-  });
+  }
+
+  $("#next").click(nextChapter);
+  $("#prev").click(previousChapter);
 
   $("#books").click(function(e) {
     e.stopPropagation();
@@ -99,6 +101,10 @@ $(document).ready(function(){
   $(window).keyup(function(e){
     if (e.which == 27 && $("#book-dropdown").is(":visible")) {
       closeBookMenu();
+    } else if (e.which == 39) {
+      nextChapter();
+    } else if (e.which == 37) {
+      previousChapter();
     }
   });
 
