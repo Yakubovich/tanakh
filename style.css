@@ -1,6 +1,15 @@
+/*
 @font-face {
   font-family: ezra;
-  src: url('SILEOT.ttf') format('truetype');
+  src: url('fonts/SILEOTSR.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+*/
+
+@font-face {
+  font-family: david;
+  src: url('fonts/TaameyDavidCLM-Medium.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -13,7 +22,7 @@ body {
   color: #333;
   counter-reset: chapter-num 0;
   font-family: Georgia, serif;
-  font-family: ezra;
+  font-family: david;
   padding-top: 64px;
 }
 
