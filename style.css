@@ -63,6 +63,26 @@ body {
        -o-transition: .4s all;
 }
 
+#book-dropdown {
+  margin: 0;
+  padding: 0;
+  display: none;
+}
+
+#book-dropdown li {
+  font-size: .6em;
+  display: block;
+  float: left;
+  padding: .4em .4em;
+  margin: 0;
+  cursor: pointer;
+}
+
+#book-dropdown li:hover {
+  background: rgba(255,255,255,.5);
+}
+
+
 #footer {
   position: fixed;
   bottom: 0;
@@ -151,6 +171,10 @@ h2 {
 .chapter {
   counter-reset: verse-num;
   padding: 0;
+}
+
+.faded {
+  opacity: .4;
 }
 
 .verse {

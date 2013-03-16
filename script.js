@@ -1,9 +1,5 @@
 $(document).ready(function(){
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.open("GET","hebrew/genesis.xml",false);
-  xmlhttp.send();
-  var xmlDoc = xmlhttp.responseXML
-  var chapters = xmlDoc.getElementsByTagName("c");
+
   var prevVerse = -1;
   var stickyHeader = false;
   var $body = $("body");
@@ -11,30 +7,76 @@ $(document).ready(function(){
   var $audio = $("#footer audio");
   var currentChapter = 1;
   var currentBook = 1;
-  var books = {};
+  var books = [];
+  var bookMap = [ "genesis", "exodus", "leviticus", "numbers", "deuteronomy", "joshua", "judges", "1samuel", "2samuel", "1kings", "2kings", "isaiah", "jeremiah", "ezekiel", "hosea", "joel", "amos", "obadiah", "jonah", "micah", "nahum", "habakkuk", "zephaniah", "haggai", "zechariah", "malachi", "psalms", "proverbs", "job", "songofsongs", "ruth", "lamentation", "ecclesiastes", "esther", "daniel", "ezra", "nehemiah", "1chronicles", "2chronicles" ];
+
+  for (var i = 0; i < 40; i++) {
+    books.push({});
+  }
 
   $header.attr("data-book-number", 1);
 
   $.getJSON('english/genesis.json', function(response) {
-    books["1"] = response;
-    getChapter(currentChapter);
+    books[1].english = response;
+    getChapter(currentChapter, currentBook);
   });
+
+  function getHebrewBook(number) {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET","hebrew/" + bookMap[number - 1] + ".xml", false);
+    xmlhttp.send();
+    var xmlDoc = xmlhttp.responseXML;
+    books[number].hebrew = xmlDoc.getElementsByTagName("c");
+    var hebname = xmlDoc.getElementsByTagName("hebrewname")[0];
+    var engname = xmlDoc.getElementsByTagName("name")[0];
+    books[number].hebrewName = hebname.textContent || hebname.innerText;
+    books[number].name = engname.textContent || engname.innerText;
+  }
+
+  getHebrewBook(1);
 
   $audio.html("<source src='http://media.snunit.k12.il/kodeshm/mp3/t" + pad(currentBook,2) + pad(currentChapter,2) + ".mp3' type='audio/mpeg'>");
 
   $("#next").click(function() {
     $("ul.chapter").html("");
     $body.css("counter-reset", "chapter-num " + currentChapter);
-    getChapter(++currentChapter);
+    getChapter(++currentChapter, currentBook);
     $audio.html("<source src='http://media.snunit.k12.il/kodeshm/mp3/t" + pad(currentBook,2) + pad(currentChapter,2) + ".mp3' type='audio/mpeg'>");
   });
 
   $("#prev").click(function() {
     if (currentChapter > 1) {
-      $("ul.chapter").html("");
-      getChapter(--currentChapter);
-      $body.css("counter-reset", "chapter-num " + (currentChapter - 1));
-      $audio.html("<source src='http://media.snunit.k12.il/kodeshm/mp3/t" + pad(currentBook,2) + pad(currentChapter,2) + ".mp3' type='audio/mpeg'>");
+      getChapter(--currentChapter, currentBook);
+    }
+  });
+
+  $("#books").click(function(e) {
+    e.stopPropagation();
+    $("#book-dropdown").slideDown();
+    $(".chapter").addClass("faded");
+    $(document).one("click", function(e){
+      e.stopPropagation();
+      e.preventDefault();
+      $("#book-dropdown").hide();
+      $(".chapter").removeClass("faded");
+    });
+  });
+
+  $("#book-dropdown > li").click(function() {
+    currentBook = $(this).parent().children().index(this) + 1;
+    currentChapter = 1;
+
+    if (!books[currentBook].hasOwnProperty("hebrew")) {
+      getHebrewBook(currentBook);
+    }
+
+    if (!books[currentBook].hasOwnProperty("english")) {
+      $.getJSON("english/" + currentBook + ".json", function(response) {
+        books[currentBook].english = response;
+        getChapter(currentChapter, currentBook);
+      });
+    } else {
+      getChapter(currentChapter, currentBook);
     }
   });
   
@@ -42,6 +84,13 @@ $(document).ready(function(){
     if (e.which == 27) {
       $(this).val("");
       $(this).blur();
+    }
+  });
+
+  $(window).keyup(function(e){
+    if (e.which == 27 && $("#book-dropdown").is(":visible")) {
+      $("#book-dropdown").hide();
+      $(".chapter").removeClass("faded");
     }
   });
 
@@ -77,16 +126,23 @@ $(document).ready(function(){
       $("#search").attr("placeholder", "Search...");
   }
 
-  function getChapter (c) {
+  function getChapter (c, b) {
+
+    $("ul.chapter").html("");
+
     c--;
-    var verses = chapters[c].getElementsByTagName("v");
+
+    $body.css("counter-reset", "chapter-num " + c);
+    $audio.html("<source src='http://media.snunit.k12.il/kodeshm/mp3/t" + pad(b,2) + pad(c+1,2) + ".mp3' type='audio/mpeg'>");
+    var verses = books[b].hebrew[c].getElementsByTagName("v");
     $("ul.chapter").remove();
     var $chapter = $("<ul class='chapter'>");
-    var chapterNum = chapters[c].attributes.getNamedItem("n").nodeValue;
+    var chapterNum = books[b].hebrew[c].attributes.getNamedItem("n").nodeValue;
+
     if (!stickyHeader) {
       $("h2").remove();
-      $body.append("<h2 class='hebrew'> בְּרֵאשִׁית </h2>");
-      $body.append("<h2 class='english'> Genesis </h2>");
+      $body.append("<h2 class='hebrew'> " +  books[b].hebrewName + " </h2>");
+      $body.append("<h2 class='english'> " + books[b].name + " </h2>");
     }
     $body.append($chapter);
     for (var v = 0; v < verses.length; v++) {
@@ -102,7 +158,7 @@ $(document).ready(function(){
         $english.appendTo($verse);
         $hebrew.appendTo($verse);
         $verse.appendTo($chapter);
-        var englishLines = books[currentBook].chapters[c].verses[verseNum - 1].text;
+        var englishLines = books[b].english.chapters[c].verses[verseNum - 1].text;
         for (var l = 0; l < englishLines.length; l++)
           $english.append(englishLines[l] + "<br>");
       } else {
@@ -123,3 +179,7 @@ $(document).ready(function(){
     return s.substr(s.length-size);
   }
 });
+
+Object.prototype.hasOwnProperty = function(property) {
+  return this[property] !== undefined;
+};
