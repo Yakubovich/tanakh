@@ -185,7 +185,7 @@ $(document).ready(function(){
       for (var w = 0; w < words.length; w++) {
         var word = words[w].childNodes[0].nodeValue.replace(/\//g, "");
         if (word != ".")
-          $hebrew.append(word + " ");
+          $hebrew.append(" " + word + " ");
       }
     }
   }

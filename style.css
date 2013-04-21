@@ -34,6 +34,7 @@ body {
   padding-top: 40px;
   background: #F38268;
   z-index: 999;
+  padding-bottom: 18px:
 }
 
 #search {
@@ -84,7 +85,7 @@ body {
 }
 
 #book-dropdown li {
-  font-size: .6em;
+  font-size: .8em;
   display: block;
   float: left;
   padding: .4em .4em;
@@ -211,7 +212,7 @@ h2 {
 .verse .hebrew:before {
   content: counter(verse-num, hebrew);
   position: absolute;
-  top: 2px;
+  top: 0;
   right: 0;
   color: #666;
   font-size: .6em;
@@ -221,7 +222,7 @@ h2 {
   content: counter(verse-num);
   counter-increment: verse-num;
   position: absolute;
-  top: 2px;
+  top: 4px;
   left: 0;
   color: #666;
   font-size: .6em;
