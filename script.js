@@ -183,7 +183,8 @@ $(document).ready(function(){
 
       prevVerse = verseNum;
       for (var w = 0; w < words.length; w++) {
-        var word = words[w].childNodes[0].nodeValue.replace(/\//g, "");
+        // To remove all nikkud: .replace(/[\u0591-\u05C7]/g,"")
+        var word = words[w].childNodes[0].nodeValue.replace(/\//g, "").replace(/[\u0591-\u05AF]/g,"").replace("׀", "").replace("׃","").replace("־","");
         if (word != ".")
           $hebrew.append(" " + word + " ");
       }
