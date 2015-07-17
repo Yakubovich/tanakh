@@ -53,12 +53,18 @@ $(document).ready(function(){
   $("#next").click(nextChapter);
   $("#prev").click(previousChapter);
 
-  $("#books").click(function(e) {
+  /* Click to open the Book or Font menus */
+  $("#book, #font").click(function(e) {
     e.stopPropagation();
-    if ($("#book-dropdown").is(":visible")) {
+    if (this.id === "font")
       closeBookMenu();
+    if (this.id === "book")
+      $("#font-dropdown").hide();
+    if ($("#" + this.id + "-dropdown").is(":visible")) {
+      closeBookMenu();
+      $("#font-dropdown").hide();
     } else {
-      $("#book-dropdown").slideDown();
+      $("#" + this.id + "-dropdown").show();
       $(".chapter").addClass("faded");
       $(document).one("click", function(e){
         e.stopPropagation();
@@ -68,11 +74,18 @@ $(document).ready(function(){
     }
   });
 
+  /* Select a font */
+  $("#font-dropdown li").click(function() {
+    $("body").removeClass().addClass(this.id);
+    $("#font-dropdown").hide();
+  });
+
   function closeBookMenu() {
     $("#book-dropdown").hide();
     $(".chapter").removeClass("faded");
   }
 
+  /* Select a book */
   $("#book-dropdown > li").click(function() {
     currentBook = $(this).parent().children().index(this) + 1;
     currentChapter = 1;
@@ -91,12 +104,28 @@ $(document).ready(function(){
     }
   });
   
+  /*
   $("#search").keyup(function(e){
     if (e.which == 27) {
       $(this).val("");
       $(this).blur();
     }
   });
+
+  resize();
+  $(window).resize(resize);
+
+  function resize () {
+    if ($(window).width() > 1000)
+      $("#search").attr("placeholder", "Click here to search for a book, verse, or phrase in English or Hebrew...");
+    else if ($(window).width() > 860)
+      $("#search").attr("placeholder", "Search for a book, verse, or phrase in English or Hebrew...");
+    else if ($(window).width() > 680)
+      $("#search").attr("placeholder", "Search for a book, verse, or phrase...");
+    else
+      $("#search").attr("placeholder", "Search...");
+  }
+  */
 
   $(window).keyup(function(e){
     if (e.which == 27 && $("#book-dropdown").is(":visible")) {
@@ -128,20 +157,8 @@ $(document).ready(function(){
   });
   */
 
-  resize();
-  $(window).resize(resize);
 
-  function resize () {
-    if ($(window).width() > 1000)
-      $("#search").attr("placeholder", "Click here to search for a book, verse, or phrase in English or Hebrew...");
-    else if ($(window).width() > 860)
-      $("#search").attr("placeholder", "Search for a book, verse, or phrase in English or Hebrew...");
-    else if ($(window).width() > 680)
-      $("#search").attr("placeholder", "Search for a book, verse, or phrase...");
-    else
-      $("#search").attr("placeholder", "Search...");
-  }
-
+  /* Switch to chapter number c in book number b */
   function getChapter (c, b) {
 
     $("ul.chapter").html("");
@@ -161,6 +178,7 @@ $(document).ready(function(){
       $body.append("<h2 class='english'> " + books[b].name + " </h2>");
     }
     $body.append($chapter);
+    
     for (var v = 0; v < verses.length; v++) {
       var words = verses[v].getElementsByTagName("w");
       var verseNum = verses[v].attributes.getNamedItem("n").nodeValue;
@@ -168,7 +186,7 @@ $(document).ready(function(){
         var $verse = $("<li class='verse'>");
         $verse.attr("data-verse", verseNum);
         $verse.attr("data-chapter", c + 1);
-        $verse.attr("data-book", "Genesis");
+        $verse.attr("data-book", "Genesis"); /* TODO */
         var $hebrew = $("<div class='hebrew'>");
         var $english = $("<div class='english'>");
         $english.appendTo($verse);
@@ -182,13 +200,29 @@ $(document).ready(function(){
       }
 
       prevVerse = verseNum;
+
+      /* Format and append each word in the verse */
       for (var w = 0; w < words.length; w++) {
-        // To remove all nikkud: .replace(/[\u0591-\u05C7]/g,"")
-        var word = words[w].childNodes[0].nodeValue.replace(/\//g, "").replace(/[\u0591-\u05AF]/g,"").replace("׀", "").replace("׃","").replace("־","");
+        var word = words[w].childNodes[0].nodeValue.replace(/\//g, "");
+        word = stripCantillation(word);
+        word = stripPunctuation(word);
         if (word != ".")
           $hebrew.append(" " + word + " ");
       }
     }
+  }
+
+  // Not currently used
+  function stripNikkud (str) {
+    return str.replace(/[\u0591-\u05C7]/g,"");
+  }
+
+  function stripCantillation (str) {
+    return str.replace(/[\u0591-\u05AF]/g,"").replace("׀", "").replace("׃","").replace("־","");
+  }
+
+  function stripPunctuation (str) {
+    return str.replace("׀", "").replace("׃","").replace("־","");
   }
 
   function pad(num, size) {

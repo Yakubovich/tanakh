@@ -7,12 +7,87 @@
 }
 */
 
+
+/* Our standard Hebrew font */
 @font-face {
   font-family: david;
   src: url('fonts/TaameyDavidCLM-Medium.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
+
+/* 19th century Ashenazi */
+@font-face {
+  font-family: ashkenaz;
+  src: url('fonts/TaameyAshkenaz-Medium.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Ashkenazi Sofer Stam */
+@font-face {
+  font-family: stam-ashkenaz;
+  src: url('fonts/StamAshkenazCLM.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Sephardi Sofer Stam */
+@font-face {
+  font-family: stam-sephard;
+  src: url('fonts/StamSefaradCLM.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Aleppo Codex, 10C CE  */
+@font-face {
+  font-family: aleppo;
+  src: url('fonts/KeterAramTsova.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Based on the Sarcophagus of Ahiram, King of Gebel, 1300 - 1000 BCE */
+@font-face {
+  font-family: ahiram;
+  src: url('fonts/ahiram.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Proto Canaanite, based on wall inscriptions from turquoise mine in Serabit al-Khadim, Sinai (~1700 BCE) */
+@font-face {
+  font-family: protocn;
+  src: url('fonts/protocn.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Based on the Qumran scrolls, ~100 BCE */
+@font-face {
+  font-family: qumran;
+  src: url('fonts/qumran.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Based on the Isiah Qumran scroll, ~200 BCE */
+@font-face {
+  font-family: isiah;
+  src: url('fonts/isiah.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Based on the Mesha Stele (850 BCE)  */
+@font-face {
+  font-family: mesha;
+  src: url('fonts/mesha.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 
 body {
   font-size: 1.5em;
@@ -21,23 +96,31 @@ body {
   margin: 0;
   color: #333;
   counter-reset: chapter-num 0;
-  font-family: Georgia, serif;
-  font-family: david;
+  font-family: david, Georgia, serif;
   padding-top: 64px;
 }
+
+body.font-david         .hebrew { font-family: david, Georgia, serif; }
+body.font-ashkenaz      .hebrew { font-family: ashkenaz, Georgia, serif; }
+body.font-stam-ashkenaz .hebrew { font-family: stam-ashkenaz, Georgia, serif; }
+body.font-stam-sephard  .hebrew { font-family: stam-sephard, Georgia, serif; }
+body.font-isiah         .hebrew { font-family: isiah, Georgia, serif; }
+body.font-mesha         .hebrew { font-family: mesha, Georgia, serif; }
+body.font-protocn       .hebrew { font-family: protocn, Georgia, serif; }
+body.font-aleppo        .hebrew { font-family: aleppo, Georgia, serif; }
 
 #header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  padding-top: 40px;
-  background: #F38268;
+  background: #00001A;
   z-index: 999;
   padding-bottom: 18px:
 }
 
 #search {
+  display: none; /* TODO */
   width: 100%;
   height: 40px;
   position: absolute;
@@ -78,25 +161,30 @@ body {
        -o-transition: .4s all;
 }
 
-#book-dropdown {
+.dropdown {
   margin: 0;
+  margin-top: 60px;
   padding: 0;
   display: none;
 }
 
-#book-dropdown li {
+.dropdown li {
   font-size: .8em;
   display: block;
   float: left;
   padding: .4em .4em;
   margin: 0;
   cursor: pointer;
+  color: rgba(255,255,255,.5);
 }
 
-#book-dropdown li:hover {
+#font-dropdown li {
+  float: none;
+}
+
+.dropdown li:hover {
   background: rgba(255,255,255,.5);
 }
-
 
 #footer {
   position: fixed;
@@ -113,33 +201,29 @@ body {
 }
 
 .nav-button {
-  height: 40px;
   background: rgba(0,0,0,.03);
   color: rgba(255,255,255,.9);
   border: none;
   font-size: .8em;
   text-decoration: none;
   display: block;
-  line-height: 2.1em;
   text-align: center;
-  width: 100px;
-  position: absolute;
-  top: 0;
+  padding: 10px;
 }
 
 #next {
-  right: 0%;
+  float: right;
 }
 
 #prev {
-  right: 100px;
+  float: right;
 }
 
-#books {
-  right: 200px; 
+#book, #font {
+  float: left;
 }
 
-#books .small {
+#header .small {
   font-size: .5em;
 }
 
@@ -184,7 +268,7 @@ po, po1, po2, po3, po4, po5, po6, po7, po8, po9, po10 {
 h2 {
   width: 45%;
   margin: .3em;
-  color: #777;
+  color: #4F4F4F;
   padding-bottom: .5em;
 }
 
