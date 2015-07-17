@@ -40,6 +40,14 @@
   font-style: normal;
 }
 
+/* Rashi */
+@font-face {
+  font-family: rashi;
+  src: url('fonts/Mekorot-Rashi.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 /* Aleppo Codex, 10C CE  */
 @font-face {
   font-family: aleppo;
@@ -81,9 +89,19 @@
 }
 
 /* Based on the Mesha Stele (850 BCE)  */
+/*
 @font-face {
   font-family: mesha;
   src: url('fonts/mesha.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+*/
+
+/* Based on the Siloah Inscription */
+@font-face {
+  font-family: siloah;
+  src: url('fonts/siloam.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -104,9 +122,11 @@ body.font-david         .hebrew { font-family: david, Georgia, serif; }
 body.font-ashkenaz      .hebrew { font-family: ashkenaz, Georgia, serif; }
 body.font-stam-ashkenaz .hebrew { font-family: stam-ashkenaz, Georgia, serif; }
 body.font-stam-sephard  .hebrew { font-family: stam-sephard, Georgia, serif; }
+body.font-rashi         .hebrew { font-family: rashi, Georgia, serif; }
 body.font-isiah         .hebrew { font-family: isiah, Georgia, serif; }
 body.font-mesha         .hebrew { font-family: mesha, Georgia, serif; }
 body.font-protocn       .hebrew { font-family: protocn, Georgia, serif; }
+body.font-siloah        .hebrew { font-family: siloah, Georgia, serif; }
 body.font-aleppo        .hebrew { font-family: aleppo, Georgia, serif; }
 
 #header {
@@ -176,6 +196,11 @@ body.font-aleppo        .hebrew { font-family: aleppo, Georgia, serif; }
   margin: 0;
   cursor: pointer;
   color: rgba(255,255,255,.5);
+}
+
+.dropdown li strong {
+  color: white;
+  font-weight: bold;
 }
 
 #font-dropdown li {
