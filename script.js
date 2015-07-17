@@ -79,7 +79,7 @@ $(document).ready(function(){
   /* Select a font */
   $("#font-dropdown li").click(function() {
     $("body").removeClass().addClass(this.id);
-    if (this.id == "font-protocn" || this.id == "font-mesha" || this.id == "font-isiah" || this.id == "font-siloah")
+    if (this.id == "font-protocn" || this.id == "font-mesha" || this.id == "font-isiah" || this.id == "font-siloah" || this.id == "font-rashi")
       nikkud = false;
     else
       nikkud = true;
