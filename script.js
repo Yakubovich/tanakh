@@ -2,6 +2,8 @@ $(document).ready(function(){
 
   var prevVerse = -1;
   var stickyHeader = false;
+  var nikkud = true;
+  var cantillation = false;
   var $body = $("body");
   var $header = $("#header");
   var $audio = $("#footer audio");
@@ -77,6 +79,11 @@ $(document).ready(function(){
   /* Select a font */
   $("#font-dropdown li").click(function() {
     $("body").removeClass().addClass(this.id);
+    if (this.id == "font-protocn" || this.id == "font-mesha" || this.id == "font-isiah")
+      nikkud = false;
+    else
+      nikkud = true;
+    getChapter(currentChapter, currentBook);
     $("#font-dropdown").hide();
   });
 
@@ -204,8 +211,13 @@ $(document).ready(function(){
       /* Format and append each word in the verse */
       for (var w = 0; w < words.length; w++) {
         var word = words[w].childNodes[0].nodeValue.replace(/\//g, "");
-        word = stripCantillation(word);
-        word = stripPunctuation(word);
+        if (!cantillation) {
+          word = stripCantillation(word);
+          word = stripPunctuation(word);
+        }
+        if (!nikkud) {
+          word = stripNikkud(word);
+        }
         if (word != ".")
           $hebrew.append(" " + word + " ");
       }
